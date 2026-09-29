@@ -1,5 +1,13 @@
-﻿from functools import lru_cache
+from functools import lru_cache
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+# Project root:
+# C:\Users\sweth\Documents\LegalEaseAI
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 class Settings(BaseSettings):
     app_name: str = "LegalEase"
@@ -11,12 +19,14 @@ class Settings(BaseSettings):
     frontend_backend_url: str = "http://127.0.0.1:8000"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=BASE_DIR / ".env",
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
     )
 
+
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
+﻿
